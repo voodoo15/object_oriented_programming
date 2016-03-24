@@ -7,6 +7,7 @@ class Rover
   attr_accessor :name, :coord_x, :coord_y, :direction, :bound_x, :bound_y
 
   def initialize( in_name, options = {} )
+
     @name = in_name
     @coord_x = options[ :coord_x ]
     @coord_y = options[ :coord_y ]
@@ -26,22 +27,39 @@ class Rover
 
   def set_map( inbound_x, inbound_y )
 
-      @bound_x = inbound_x
-      @bound_y = inbound_y
+    @bound_x = inbound_x
+    @bound_y = inbound_y
 
   end
 
   def show_location
 
+    puts "Name:  #{ @name }"
     puts "x coordinate:  #{ @coord_x }"
     puts "y coordinate:  #{ @coord_y }"
     puts "direction:  #{ @direction }"
 
   end
 
+   def move( incoming_instructions )
+
+     instructions = incoming_instructions.split( // )
+
+     instructions.each { | movement |
+
+       puts "#{ movement }"
+
+       
+
+     }
+
+   end
+
 end
 
 mars1 = Rover.new( "Mars1", { :coord_x => 1, :coord_y => 2, :direction => "N" } )
 mars1.show_location
-mars2 = Rover.new( "Mars2")
+mars2 = Rover.new( "Mars2" )
 mars2.set_location( 3, 3, "E" )
+mars2.show_location
+mars1.move( "LMLMLMLMM")
