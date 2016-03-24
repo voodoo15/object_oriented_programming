@@ -1,7 +1,7 @@
 #Exercise 2
 #Name:  Arnold Redoblado
 #Date:  2016-03-24
-#Purpose:  Create a Mars rover and be able to move it around a 10x10 grid with directions
+#Purpose:  Create a Mars rover and be able to move it around a grid with directions
 
 class Rover
   attr_accessor :name, :coord_x, :coord_y, :direction, :bound_x, :bound_y
@@ -43,13 +43,43 @@ class Rover
 
    def move( incoming_instructions )
 
+    direct_grid = [ "N", "E", "S", "W" ]
+
      instructions = incoming_instructions.split( // )
 
      instructions.each { | movement |
 
-       puts "#{ movement }"
+      case movement
 
-       
+        when "L"
+          @direction = direct_grid[ ( direct_grid.index( @direction.to_s ) - 1 ) ]
+
+        when "R"
+
+          #If my directions go from west to north > 3 use option one because it will pass end of array
+          if ( direct_grid.index( @direction.to_s ) + 1 ) > 3
+
+            @direction = "N"
+
+          else
+
+            @direction = direct_grid[ ( direct_grid.index( @direction.to_s ) + 1 ) ]
+
+        end
+
+        when "M"
+
+          if @direction == "N"
+              @coord_y += 1
+            elsif @direction == "E"
+              @coord_x += 1
+            elsif @direction == "S"
+              @coord_y -= 1
+            elsif @direction == "W"
+              @coord_x -= 1
+          end
+
+      end
 
      }
 
@@ -57,9 +87,13 @@ class Rover
 
 end
 
-mars1 = Rover.new( "Mars1", { :coord_x => 1, :coord_y => 2, :direction => "N" } )
-mars1.show_location
+# mars1 = Rover.new( "Mars1", { :coord_x => 1, :coord_y => 2, :direction => "N" } )
+# mars1.move( "LMLMLMLMM" )
+# mars1.show_location
+
+
 mars2 = Rover.new( "Mars2" )
 mars2.set_location( 3, 3, "E" )
 mars2.show_location
-mars1.move( "LMLMLMLMM")
+mars2.move( "MMRMMRMRRM" )
+mars2.show_location
