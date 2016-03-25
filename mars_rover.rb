@@ -108,7 +108,7 @@ class Rover
       end
 
       #Keeping in case I need to debug and see what is going on with my coordinates
-      # self.show_location
+      #  self.show_location
 
      }
 
@@ -116,26 +116,59 @@ class Rover
 
 end
 
+class Mission_control
+
+  attr_accessor :name, :bound_x, :bound_y, :chess_piece
+
+  def initialize( incoming_name, options = {} )
+
+      @name = incoming_name
+      @bound_x = options[ :bound_x ] || 100 #I'm defaulting 100 cuz I want something in boundary
+      @bound_y = options [ :bound_y ] || 100 #I'm defaulting 100 cuz I want something in bounary
+      @chess_piece = options [ :chess_piece ] || []
+
+  end
+
+  def add_chess_piece( add_piece )
+
+    @chess_piece << add_piece
+
+  end
+
+  def count_pieces
+
+    puts "Number of pieces to control:  #{ @chess_piece.length } "
+
+  end
+
+end
+
 #main
 
-#initialize Mars1
 mars1 = Rover.new( "Mars1", { :coord_x => 1, :coord_y => 2, :direction => "N", :bound_x => 5, :bound_y => 5} )
-#show initial location
-mars1.show_location
-#move my rover via instructions provided
-mars1.move( "LMLMLMLMM" )
-#show final location
-mars1.show_location
+houston = Mission_control.new( "Houston" )
+houston.count_pieces
+houston.add_chess_piece( mars1 )
+houston.count_pieces
 
-#initialize Mars2
-mars2 = Rover.new( "Mars2" )
-#try the other method of setting up initial location
-mars2.set_location( 3, 3, "E" )
-#display initial location
-mars2.show_location
-#move my rover via instructions provided
-mars2.move( "MMRMMRMRRM" )
-#show final location
-mars2.set_plateau(5, 5) #testing method
-mars2.show_location
-mars2.move("!") #testing invalid command (error trapping)
+# #initialize Mars1
+# mars1 = Rover.new( "Mars1", { :coord_x => 1, :coord_y => 2, :direction => "N", :bound_x => 5, :bound_y => 5} )
+# #show initial location
+# mars1.show_location
+# #move my rover via instructions provided
+# mars1.move( "LMLMLMLMM" )
+# #show final location
+# mars1.show_location
+#
+# #initialize Mars2
+# mars2 = Rover.new( "Mars2" )
+# #try the other method of setting up initial location
+# mars2.set_location( 3, 3, "E" )
+# #display initial location
+# mars2.show_location
+# #move my rover via instructions provided
+# mars2.move( "MMRMMRMRRM" )
+# #show final location
+# mars2.set_plateau(5, 5) #testing method
+# mars2.show_location
+# mars2.move("!") #testing invalid command (error trapping)
