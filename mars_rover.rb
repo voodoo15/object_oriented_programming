@@ -25,7 +25,7 @@ class Rover
 
   end
 
-  def set_map( inbound_x, inbound_y )
+  def set_plateau( inbound_x, inbound_y )
 
     @bound_x = inbound_x
     @bound_y = inbound_y
@@ -61,7 +61,7 @@ class Rover
 
         when "R"
 
-          #If my directions go from west to north ( array > 3 ) make north because pointer will pass end of array
+          #If my directions go from west to north ( array > array length ) make north because pointer will pass end of array
           if ( ( direct_grid.index( @direction.to_s ).to_i + 1 ) > direct_grid.length )
             @direction = "N"
 
@@ -72,23 +72,43 @@ class Rover
 
         when "M"
 
-          #if @direction == "N"
-          if @direction == "N" #&& ( @coord_y += 1 ).between?( 0, @bound_y.to_i )
-              @coord_y += 1
+          #Figure out where the movement is and make the new coordinates in a temporary variable
+          if @direction == "N"
+              #Get coordinates and make move
+              @temp_coord_y = @coord_y
+              @temp_coord_x = @coord_x
+              @temp_coord_y += 1 #make move
 
-            elsif @direction == "E" #&& ( @coord_x += 1 ).between?( 0, @bound_x.to_i )
-              @coord_x += 1
 
-            elsif @direction == "S" #&& ( @coord_y -= 1 ).between?( 0, @bound_y.to_i )
-              @coord_y -= 1
+            elsif @direction == "E"
+              #Get coordinates and make move
+              @temp_coord_y = @coord_y
+              @temp_coord_x = @coord_x
+              @temp_coord_x += 1 #make move
 
-            elsif @direction == "W" #&& ( @coord_x -= 1 ).between?( 0, @bound_x.to_i )
-              @coord_x -= 1
+            elsif @direction == "S"
+              #Get coordinates and make move
+              @temp_coord_y = @coord_y
+              @temp_coord_x = @coord_x
+              @temp_coord_y -= 1 #make move
 
-          # else
-          #   puts "Instruction either not understood or out of bounds"
+            elsif @direction == "W"
+              #Get coordinates and make move
+              @temp_coord_y = @coord_y
+              @temp_coord_x = @coord_x
+              @temp_coord_x -= 1 #make move
 
-        end
+          end
+
+          #Commit my coordinates if my location doesn't pass the boundaries
+          if @temp_coord_x.to_i <= @bound_x.to_i && @temp_coord_y.to_i <= @bound_y.to_i
+              @coord_x = @temp_coord_x
+              @coord_y = @temp_coord_y
+
+            else
+              puts "Instruction will put rover out of bounds"
+
+          end
 
         #Keeping in case I need to debug and see what is going on with my coordinates
         # self.show_location
@@ -104,7 +124,7 @@ end
 #main
 
 #initialize Mars1
-mars1 = Rover.new( "Mars1", { :coord_x => 1, :coord_y => 2, :direction => "N" } )
+mars1 = Rover.new( "Mars1", { :coord_x => 1, :coord_y => 2, :direction => "N", :bound_x => 5, :bound_y => 5} )
 #show initial location
 mars1.show_location
 #move my rover via instructions provided
@@ -116,6 +136,7 @@ mars1.show_location
 mars2 = Rover.new( "Mars2" )
 #try the other method of setting up initial location
 mars2.set_location( 3, 3, "E" )
+mars2.set_plateau(5, 5)
 #display initial location
 mars2.show_location
 #move my rover via instructions provided
