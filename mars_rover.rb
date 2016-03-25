@@ -12,8 +12,8 @@ class Rover
     @coord_x = options[ :coord_x ]
     @coord_y = options[ :coord_y ]
     @direction = options[ :direction ]
-    @bound_x = options[ :bound_x ]
-    @bound_y = options [ :bound_y ]
+    @bound_x = options[ :bound_x ] || 100 #I'm defaulting 100 cuz I want something in boundary
+    @bound_y = options [ :bound_y ] || 100 #I'm defaulting 100 cuz I want something in bounary
 
   end
 
@@ -101,7 +101,7 @@ class Rover
           end
 
           #Commit my coordinates if my location doesn't pass the boundaries
-          if @temp_coord_x.to_i <= @bound_x.to_i && @temp_coord_y.to_i <= @bound_y.to_i
+          if @temp_coord_x.to_i.between?( 0, @bound_x.to_i ) && @temp_coord_y.to_i.between?( 0, @bound_y.to_i )
               @coord_x = @temp_coord_x
               @coord_y = @temp_coord_y
 
@@ -136,7 +136,7 @@ mars1.show_location
 mars2 = Rover.new( "Mars2" )
 #try the other method of setting up initial location
 mars2.set_location( 3, 3, "E" )
-mars2.set_plateau(5, 5)
+#mars2.set_plateau(5, 5)
 #display initial location
 mars2.show_location
 #move my rover via instructions provided
