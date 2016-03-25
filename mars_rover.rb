@@ -13,7 +13,7 @@ class Rover
     @coord_y = options[ :coord_y ]
     @direction = options[ :direction ]
     @bound_x = options[ :bound_x ] || 100 #I'm defaulting 100 cuz I want something in boundary
-    @bound_y = options [ :bound_y ] || 100 #I'm defaulting 100 cuz I want something in bounary
+    @bound_y = options[ :bound_y ] || 100 #I'm defaulting 100 cuz I want something in boundary
 
   end
 
@@ -118,14 +118,15 @@ end
 
 class Mission_control
 
-  attr_accessor :name, :bound_x, :bound_y, :chess_piece
+  attr_accessor :name, :bound_x, :bound_y, :chess_piece, :current_piece
 
-  def initialize( incoming_name, options = {} )
+  def initialize( incoming_name, incoming_piece, options = {} )
 
       @name = incoming_name
       @bound_x = options[ :bound_x ] || 100 #I'm defaulting 100 cuz I want something in boundary
-      @bound_y = options [ :bound_y ] || 100 #I'm defaulting 100 cuz I want something in bounary
-      @chess_piece = options [ :chess_piece ] || []
+      @bound_y = options[ :bound_y ] || 100 #I'm defaulting 100 cuz I want something in boundary
+      @chess_piece = [ incoming_piece ]
+      @current_piece = 0
 
   end
 
@@ -137,7 +138,45 @@ class Mission_control
 
   def count_pieces
 
-    puts "Number of pieces to control:  #{ @chess_piece.length } "
+    puts "Number of pieces to control:  #{ @chess_piece.length }"
+
+  end
+
+  def set_plateau( inbound_x, inbound_y )
+
+    @bound_x = inbound_x
+    @bound_y = inbound_y
+
+  end
+
+  def status
+
+    chess_piece.each { | piece |
+
+      piece.show_location
+
+    }
+
+  end
+
+  def change_current( incoming_name )
+
+    #Get index where key name, haven't put any trapping if name isn't found
+    @current_piece = chess_piece.find_index{ | s | s.name == incoming_name }
+    puts "Current piece is:  #{ chess_piece[ current_piece.to_i ].name }"
+
+  end
+
+  def see_current
+
+    puts "Current piece is:  #{ chess_piece[ current_piece.to_i ].name }"
+
+  end
+
+  def move_current( instruction )
+
+    #I'm sending the whole instruction to the rover.  I haven't completed any collision detection.
+    chess_piece[ current_piece ].move( instruction.to_s )
 
   end
 
@@ -145,11 +184,26 @@ end
 
 #main
 
-mars1 = Rover.new( "Mars1", { :coord_x => 1, :coord_y => 2, :direction => "N", :bound_x => 5, :bound_y => 5} )
-houston = Mission_control.new( "Houston" )
+#Instantiate objects
+mars1 = Rover.new( "mars1", { :coord_x => 1, :coord_y => 2, :direction => "N", :bound_x => 5, :bound_y => 5 } )
+mars2 = Rover.new( "mars2", { :coord_x => 3, :coord_y => 3, :direction => "E", :bound_x => 5, :bound_y => 5 } )
+houston = Mission_control.new( "Houston", mars1 )
+
+#Give commands
 houston.count_pieces
-houston.add_chess_piece( mars1 )
+houston.add_chess_piece( mars2 )
 houston.count_pieces
+houston.set_plateau( 5, 5 )
+houston.status
+houston.change_current( "mars1" )
+houston.move_current( "LMLMLMLMM" )
+houston.change_current( "mars2" )
+houston.move_current( "MMRMMRMRRM" )
+houston.status #At least I'm getting the rovers to move to where they are supposed to go.
+
+
+
+#Stuff below was to check my rover class
 
 # #initialize Mars1
 # mars1 = Rover.new( "Mars1", { :coord_x => 1, :coord_y => 2, :direction => "N", :bound_x => 5, :bound_y => 5} )
