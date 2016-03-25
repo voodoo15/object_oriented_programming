@@ -60,7 +60,6 @@ class Rover
           @direction = direct_grid[ ( direct_grid.index( @direction.to_s ) - 1 ) ]
 
         when "R"
-
           #If my directions go from west to north ( array > array length ) make north because pointer will pass end of array
           if ( ( direct_grid.index( @direction.to_s ).to_i + 1 ) > direct_grid.length )
             @direction = "N"
@@ -71,32 +70,26 @@ class Rover
         end
 
         when "M"
-
           #Figure out where the movement is and make the new coordinates in a temporary variable
           if @direction == "N"
               #Get coordinates and make move
-              @temp_coord_y = @coord_y
+              @temp_coord_y = @coord_y + 1 #Make move
               @temp_coord_x = @coord_x
-              @temp_coord_y += 1 #make move
-
 
             elsif @direction == "E"
               #Get coordinates and make move
               @temp_coord_y = @coord_y
-              @temp_coord_x = @coord_x
-              @temp_coord_x += 1 #make move
+              @temp_coord_x = @coord_x + 1 #Make move
 
             elsif @direction == "S"
               #Get coordinates and make move
-              @temp_coord_y = @coord_y
+              @temp_coord_y = @coord_y - 1 #Make move
               @temp_coord_x = @coord_x
-              @temp_coord_y -= 1 #make move
 
             elsif @direction == "W"
               #Get coordinates and make move
               @temp_coord_y = @coord_y
-              @temp_coord_x = @coord_x
-              @temp_coord_x -= 1 #make move
+              @temp_coord_x = @coord_x - 1 #Make move
 
           end
 
@@ -110,10 +103,12 @@ class Rover
 
           end
 
-        #Keeping in case I need to debug and see what is going on with my coordinates
-        # self.show_location
+        else puts "Invalid command"
 
       end
+
+      #Keeping in case I need to debug and see what is going on with my coordinates
+      # self.show_location
 
      }
 
@@ -136,10 +131,11 @@ mars1.show_location
 mars2 = Rover.new( "Mars2" )
 #try the other method of setting up initial location
 mars2.set_location( 3, 3, "E" )
-#mars2.set_plateau(5, 5)
 #display initial location
 mars2.show_location
 #move my rover via instructions provided
 mars2.move( "MMRMMRMRRM" )
 #show final location
+mars2.set_plateau(5, 5) #testing method
 mars2.show_location
+mars2.move("!") #testing invalid command (error trapping)
