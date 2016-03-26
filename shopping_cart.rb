@@ -73,18 +73,20 @@ class Shopping_cart
 
   attr_accessor :shopping_list, :db
 
-  def initialize( db )
+  def initialize( incoming_db )
 
     @shopping_list = []
-    @db = db
+    @db = incoming_db
 
   end
 
   def add( item )
 
+        #If item does exist in my inventory but not in my shopping cart, add item
         if @db.find( item ) && not( @shopping_list.find{ | list | list[ :description ] == item } )
           @shopping_list << @db.find( item )
 
+        #If item does exist in my inventory and in my shopping cart, add to quantity
         elsif @db.find( item )  && ( @shopping_list.find{ | list | list[ :description ] == item } )
           @shopping_list[ @shopping_list.find_index{ | list | list[ :description ] == item } ][ :qty ] += 1
 
@@ -95,7 +97,13 @@ class Shopping_cart
 
   end
 
-  def list
+  def list_inventory
+
+    @db.list
+
+  end
+
+  def list_cart
 
     if @shopping_list.count == 0
 
@@ -116,18 +124,39 @@ class Shopping_cart
 
   end
 
+  def receipt
+
+    @shopping_list.each do | item |
+
+      puts "#{ item[ :qty ] }   #{item[ :description ] }:  $#{ ( item[ :price ] * item[ :qty ] ).round(2) }"
+
+    end
+
+    puts "Sales Tax:  $0.00"
+    puts "Total:  $0.00"
+
+  end
+
 end
 
 #Main
 puts "Instantiate objects..."
 store = Shopping_cart.new( db = Inventory.new )
-puts "List objects..."
-store.list
+puts "List inventory"
+store.list_inventory
+puts "---"
+puts "List cart"
+store.list_cart
+puts "---"
 puts "Test add bogus items"
 store.add( "Stuff" )
+puts "---"
 puts "Test add items in inventory (db)"
+store.add( "Sense & Sensibility" )
+store.add( "The Irish Rovers" )
 store.add( "Kit Kat" )
-store.add( "The Irish Rovers" )
-store.add( "The Irish Rovers" )
+puts "---"
 puts "List items now"
-store.list
+store.list_cart
+puts "Test Receipt"
+store.receipt
