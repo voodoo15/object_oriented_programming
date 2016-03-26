@@ -82,10 +82,13 @@ class Shopping_cart
 
   def add( item )
 
-        if @db.find( item )
+        if @db.find( item ) && not( @shopping_list.find{ | list | list[ :description ] == item } )
           @shopping_list << @db.find( item )
-        else
 
+        elsif @db.find( item )  && ( @shopping_list.find{ | list | list[ :description ] == item } )
+          @shopping_list[ @shopping_list.find_index{ | list | list[ :description ] == item } ][ :qty ] += 1
+
+        else
           puts "Item not found.  No item added."
 
         end
@@ -100,13 +103,12 @@ class Shopping_cart
 
     else
 
-      @shopping_list.each do | i |
-
-        puts "TYPE:        #{ i[ :type ] }"
-        puts "DESCRIPTION: #{ i[ :description ] }"
-        puts "QUANTITY:    #{ i[ :qty ] }"
-        puts "IMPORT_FLAG: #{ i[ :import ] }"
-        puts "PRICE:       $#{ i[ :price ] }"
+      @shopping_list.each_with_index do | i, index |
+        puts "ITEM:           #{ index + 1 }"
+        puts "DESCRIPTION:    #{ i[ :description ] }"
+        puts "QUANTITY:       #{ i[ :qty ] }"
+        puts "IMPORT PRODUCT: #{ i[ :import ] }"
+        puts "PRICE:          $#{ i[ :price ] }"
 
       end
 
@@ -115,3 +117,17 @@ class Shopping_cart
   end
 
 end
+
+#Main
+puts "Instantiate objects..."
+store = Shopping_cart.new( db = Inventory.new )
+puts "List objects..."
+store.list
+puts "Test add bogus items"
+store.add( "Stuff" )
+puts "Test add items in inventory (db)"
+store.add( "Kit Kat" )
+store.add( "The Irish Rovers" )
+store.add( "The Irish Rovers" )
+puts "List items now"
+store.list
