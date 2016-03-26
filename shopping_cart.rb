@@ -39,6 +39,30 @@ class Inventory
         :qty => 1,
         :import => true,
         :price => 47.50
+      },
+      { :type => "item",
+        :description => "Yves Saint Laurent Black Opium",
+        :qty => 1,
+        :import => true,
+        :price => 27.99
+      },
+      { :type => "item",
+        :description => "Dolce & Gabbana Light Blue",
+        :qty => 1,
+        :import => false,
+        :price => 18.99
+      },
+      { :type => "medical",
+        :description => "Aspirin Regular Strength",
+        :qty => 1,
+        :import => false,
+        :price => 9.75
+      },
+      { :type => "food",
+        :description => "Ferrero Rocher",
+        :qty => 1,
+        :import => true,
+        :price => 11.25
       }
     ]
 
@@ -126,14 +150,28 @@ class Shopping_cart
 
   def receipt
 
+    total_price = 0.00
+    total_sales_tax = 0.00
+    total_import_tax = 0.00
+
     @shopping_list.each do | item |
 
       puts "#{ item[ :qty ] }   #{item[ :description ] }:  $#{ ( item[ :price ] * item[ :qty ] ).round(2) }"
 
+      #unless they are books, food, medical then taxes = item * 0.10
+      total_sales_tax += ( item[ :price ] * item[ :qty ] * 0.1 ) unless item[ :type ] == "book" || item[ :type ] == "food" || item[ :type ] == "medical"
+
+      #if my item is imported, import duty = item * 0.05
+      total_import_tax += ( item[ :price ] * item[ :qty ] * 0.05 ) if item[ :import ] == true
+
+      #Add to total as we go along
+      total_price += ( item[ :price ] * item[ :qty ] )
+
     end
 
-    puts "Sales Tax:  $0.00"
-    puts "Total:  $0.00"
+    puts "Sales Tax:   $#{ '%.02f' % total_sales_tax.round(2) }"
+    puts "Import Tax:  $#{ '%.02f' % total_import_tax.round(2) }"
+    puts "Total:       $#{ '%.02f' % ( total_price + total_sales_tax + total_import_tax ).round(2) }"
 
   end
 
@@ -158,5 +196,5 @@ store.add( "Kit Kat" )
 puts "---"
 puts "List items now"
 store.list_cart
-puts "Test Receipt"
+puts "Test Receipt 1"
 store.receipt
