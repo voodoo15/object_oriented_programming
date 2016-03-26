@@ -44,11 +44,12 @@ class Inventory
 
   end
 
-  def find( options = {} )
+  def find( description )
 
-    description = options[ :description ]
-
-    @inventory.find{ | i | i[ :description ] == description }
+    #description = options[ :description ]
+      if @inventory.find{ | i | i[ :description ] == description }
+        @inventory.find{ | i | i[ :description ] == description }
+      end
 
   end
 
@@ -61,6 +62,53 @@ class Inventory
       puts "QUANTITY:    #{ i[ :qty ] }"
       puts "IMPORT_FLAG: #{ i[ :import ] }"
       puts "PRICE:       $#{ i[ :price ] }"
+
+    end
+
+  end
+
+end
+
+class Shopping_cart
+
+  attr_accessor :shopping_list, :db
+
+  def initialize( db )
+
+    @shopping_list = []
+    @db = db
+
+  end
+
+  def add( item )
+
+        if @db.find( item )
+          @shopping_list << @db.find( item )
+        else
+
+          puts "Item not found.  No item added."
+
+        end
+
+  end
+
+  def list
+
+    if @shopping_list.count == 0
+
+        puts "Shopping cart is empty"
+
+    else
+
+      @shopping_list.each do | i |
+
+        puts "TYPE:        #{ i[ :type ] }"
+        puts "DESCRIPTION: #{ i[ :description ] }"
+        puts "QUANTITY:    #{ i[ :qty ] }"
+        puts "IMPORT_FLAG: #{ i[ :import ] }"
+        puts "PRICE:       $#{ i[ :price ] }"
+
+      end
 
     end
 
