@@ -156,7 +156,7 @@ class Shopping_cart
 
     @shopping_list.each do | item |
 
-      puts "#{ item[ :qty ] }   #{item[ :description ] }:  $#{ ( item[ :price ] * item[ :qty ] ).round(2) }"
+      puts "#{ item[ :qty ] }   #{item[ :description ] }:  $#{ '%.02f' % ( item[ :price ] * item[ :qty ] ) }"
 
       #unless they are books, food, medical then taxes = item * 0.10
       total_sales_tax += ( item[ :price ] * item[ :qty ] * 0.1 ) unless item[ :type ] == "book" || item[ :type ] == "food" || item[ :type ] == "medical"
@@ -179,22 +179,36 @@ end
 
 #Main
 puts "Instantiate objects..."
-store = Shopping_cart.new( db = Inventory.new )
+register1 = Shopping_cart.new( db = Inventory.new )
 puts "List inventory"
-store.list_inventory
+register1.list_inventory
 puts "---"
 puts "List cart"
-store.list_cart
+register1.list_cart
 puts "---"
 puts "Test add bogus items"
-store.add( "Stuff" )
+register1.add( "Stuff" )
 puts "---"
 puts "Test add items in inventory (db)"
-store.add( "Sense & Sensibility" )
-store.add( "The Irish Rovers" )
-store.add( "Kit Kat" )
+register1.add( "Sense & Sensibility" )
+register1.add( "The Irish Rovers" )
+register1.add( "Kit Kat" )
 puts "---"
 puts "List items now"
-store.list_cart
+register1.list_cart
 puts "Test Receipt 1"
-store.receipt
+register1.receipt
+
+puts "Test Receipt 2"
+register2 = Shopping_cart.new( db = Inventory.new )
+register2.add( "Lady Godiva (Box of 4)" )
+register2.add( "Coco Mademoiselle" )
+register2.receipt
+
+puts "Test Receipt 3"
+register3 = Shopping_cart.new( db = Inventory.new )
+register3.add( "Yves Saint Laurent Black Opium" )
+register3.add( "Dolce & Gabbana Light Blue" )
+register3.add( "Aspirin Regular Strength" )
+register3.add( "Ferrero Rocher" )
+register3.receipt
