@@ -1,37 +1,16 @@
+#Object Oriented Programming
 
- Curriculum
- Users
- Events
- Referrals
- Arnold Redoblado
-Assignments
-Lessons
-Checkpoints
-Students
-Progress
-Staff
-Job Postings
-Companies
-More Jobs!
-Students
-Courses
- Web Development
-Edit Profile
-Log Out
-Object Oriented Programming
-
-Article Submissions
-Submitting
+##Submitting
 
 Create a git repository on GitHub, called "object_oriented_programming" or similar. Clone it onto your own computer. The assignment will walk you through creating Ruby programs and adding those files to the repository. If you're stuck, you can refer back to this Submissions Cheat Sheet.
 
 Have fun and don't forget to work alongside a partner!
 
-What You Will Learn
+##What You Will Learn
 
 Ruby is pure object-oriented language and everything appears to Ruby, as an object. Every value in Ruby is an object, even the most primitive things: strings, numbers and even true and false. Even a class itself is an object that is an instance of the Class class. This assignment will take you through all the major functionalities related to Object Oriented Ruby.
 
-Develop an understanding of the following concepts:
+##Develop an understanding of the following concepts:
 
 How to start writing proper OO code in Ruby
 Understanding classes, inheritance, modules, namespacing
@@ -42,260 +21,7 @@ Exercise 2
 Stretch Exercise
 Required Reading on Objects, Classes, Inheritance and Modules
 
-What are Objects and Classes?
-
-An object-oriented program involves classes and objects. A class is the blueprint from which individual objects are created. In object-oriented terms, we say that your bicycle is an instance of the class of objects known as bicycles.
-
-Take the example of any vehicle. It comprises wheels, horsepower, and fuel or gas tank capacity. These characteristics form the data members of the class Vehicle. You can differentiate one vehicle from the other with the help of these characteristics.
-
-A vehicle can also have certain functions, such as halting, driving, and speeding. Even these functions form the data members of the class Vehicle. You can, therefore, define a class as a combination of characteristics and functions.
-
-Defining Classes (Objects)
-
-To implement object-oriented programming by using Ruby, you need to first learn how to create objects and classes in Ruby.
-
-A class in Ruby always starts with the keyword class followed by the name of the class. The name should always be in initial capitals. The class Customer can be displayed as:
-
-class Person
-end
-You terminate a class by using the keyword end. All the data members in the class are between the class definition and the end keyword.
-
-Ruby provides four types of variables:
-
-Local Variables
-
-Local Variables: Local variables are the variables that are defined in a method. Local variables are not available outside the method. You will see more detail about method in subsequent chapter. Local variables begin with a lowercase letter or _.
-
-Instance Variables
-
-Instance Variables: Instance variables are available across methods for any particular instance or object. That means that instance variables change from object to object. Instance variables are preceded by the at sign (@) followed by the variable name.
-
-Class Variables
-
-Class Variables: Class variables are available across different objects. A class variable belongs to the class and is a characteristic of a class. They are preceded by the sign @@ and are followed by the variable name.
-
-Global Variables
-
-Global Variables: Class variables are not available across classes. If you want to have a single variable, which is available across classes, you need to define a global variable. The global variables are always preceded by the dollar sign ($).
-
-Creating Objects (Classes)
-
-jim = Person.new
-shelly = Person.new
-Class and Instance Methods
-
-Class methods are methods that are called on a class and instance methods are methods that are called on an instance of a class.
-
-Instance Methods
-
-Instance methods only work on an instance and thus you have to create a new instance to use them (Person.new). Again, there are more ways to define instance methods than this, especially if you look into meta programming. The below is an example of an instance method.
-
-class Person
-  def hello
-    puts "Hello Ruby!"
-  end
-end
-The self Keyword
-
-"self" references what scope you're in your program. For example:
-
-class Person
-  puts self
-end
-# Person
-When we output "self" to the screen, it prints "Person". If we were to put self in an instance method, "self" would now point to an instance of Person.
-
-class Person
-  def new_method
-    self
-  end
-end
-p = Person.new # #<Person:0x007feaf118aef0>
-p.new_method # #<Person:0x007feaf118aef0>
-Class Methods
-
-The following is an example of a class method. When you see self.method_name it is immediately apparent to me that this is a class method.
-
-So when would you use a class method? Class methods are for anything that does not deal with an individual instance of a class.
-
-class Calculator
-  def self.add
-    puts "Hello Ruby!"
-  end
-end
-Readers and Writers
-
-Let's say you have a class Person.
-
-class Person
-end
-
-person = Person.new
-person.name # => no method error
-Obviously we never defined method name. Let's do that.
-
-class Person
-  def name
-    @name # simply returning an instance variable @name
-  end
-end
-
-person = Person.new
-person.name # => nil
-person.name = "Dennis" # => no method error
-Aha, we can read the name, but that doesn't mean we can assign the name. Those are two different methods. Former called reader and latter called writer. We didn't create the writer yet so let's do that.
-
-class Person
-  def name
-    @name
-  end
-
-  def name=(str)
-    @name = str
-  end
-end
-
-person = Person.new
-person.name = 'Dennis'
-person.name # => "Dennis"
-Awesome. Now we can write and read instance variable @name using reader and writer methods. Except, this is done so frequently, why waste time writing these methods every time? We can do it easier.
-
-class Person
-  attr_reader :name
-  attr_writer :name
-end
-Even this can get repetitive. When you want both reader and writer just use accessor!
-
-class Person
-  attr_accessor :name
-end
-
-person = Person.new
-person.name = "Dennis"
-person.name # => "Dennis"
-Works the same way! And guess what: the instance variable @name in our person object will be set just like when we did it manually, so you can use it in other methods.
-
-class Person
-  attr_accessor :name
-
-  def greeting
-    "Hello #{@name}"
-  end
-end
-
-person = Person.new
-person.name = "Dennis"
-person.greeting # => "Hello Dennis"
-That's it. In order to understand how attrreader, attrwriter, and attr_accessor methods actually generate methods for you, read other answers, books, ruby docs.
-
-Modules
-
-(this excerpt is from Ruby Monk)
-
-Ruby modules allow you to create groups of methods that you can then include or mix into any number of classes. Modules only hold behaviour, unlike classes, which hold both behaviour and state.
-
-Since a module cannot be instantiated, there is no way for its methods to be called directly. Instead, it should be included in another class, which makes its methods available for use in instances of that class. There is, of course, more to this story, but let's keep it simple for now.
-
-In order to include a module into a class, we use the method include which takes one parameter - the name of a Module.
-
-module WarmUp
-  def push_ups
-    "Phew, I need a break!"
-  end
-end
-
-class Gym
-  include WarmUp
-
-  def preacher_curls
-    "I'm building my biceps."
-  end
-end
-
-class Dojo
-  include WarmUp
-
-  def tai_kyo_kyu
-    "Look at my stance!"
-  end
-end
-
-gym = Gym.new
-dojo = Dojo.new
-
-puts gym.push_ups
-puts dojo.push_ups
-
-Modules as Namespaces
-
-(this excerpt is from Ruby Monk)
-
-Namespacing is a way of bundling logically related objects together. Modules serve as a convenient tool for this. This allows classes or modules with conflicting names to co-exist while avoiding collisions. Think of this as storing different files with the same names under separate directories in your filesystem.
-
-Modules can also hold classes. In this example, we'll try and define an Array class under our Perimeter module from the last lesson. Notice how it does not affect Ruby's Array class at all.
-
-module Perimeter
-  class Array
-    def initialize
-      @size = 400
-    end
-  end
-end
-
-our_array = Perimeter::Array.new
-ruby_array = Array.new
-
-p our_array.class
-p ruby_array.class
-We have these two classes alongside each other. This is possible because we've namespaced our version of the Array class under the Perimeter module.
-
-:: is a constant lookup operator that looks up the Array constant only in the Perimeter module.
-
-What happens when we don't namespace our Array class?
-
-class Array
-  def initialize
-    @size = 400
-  end
-end
-
-our_array = Array.new
-
-p our_array.class
-Because Ruby has open classes, doing this simply extends the Array class globally throughout the program, which is dangerous and of course not our intended behaviour.
-
-The examples above are a bit contrived for the sake of simplicity. The real problem namespacing solves is when you're loading libraries. If your program bundles libraries written by different authors, it is often the case that there might be classes or modules defined by the same name.
-
-Inheritance
-
-Inheritance is a relation between two classes. We know that all cats are mammals, and all mammals are animals. The benefit of inheritance is that classes lower down the hierarchy get the features of those higher up, but can also add specific features of their own. If all mammals breathe, then all cats breathe. In Ruby, a class can only inherit from a single other class. Some other languages support multiple inheritance, a feature that allows classes to inherit features from multiple classes, but Ruby doesn't support this.
-
-We can express this concept in Ruby - see the p033mammal.rb program below:
-
-class Mammal
-  def breathe
-    puts "inhale and exhale"
-  end
-end
-
-class Cat < Mammal
-  def speak
-    puts "Meow"
-  end
-end
-
-rani = Cat.new
-rani.breathe
-rani.speak
-Class Hierarchy
-
-A part of the class hierarchy is as shown in the figure below.
-
-!Wikipedia
-
-This diagram demonstrates that all objects inherit their methods from "Object".
-
-Exercise 1: Class Time
+##Exercise 1: Class Time
 
 Create a file called people.rb. Run your program and commit your work after each step.
 
@@ -309,7 +35,7 @@ Create an instance of Student whose name is "Cristina" and call her greeting.
 Call the teach method on your instructor instance and call the learn method on your student. Next, call the teach method on your student instance. What happens? Why doesn't that work? Leave a comment in your program explaining why.
 Once you're done, commit and push your work to GitHub!
 
-Exercise 2: Mars Rover
+##Exercise 2: Mars Rover
 
 This is a longer problem and recommended for group work. You can all work at your own computers, but talking through this problem as a group will help break it down and solve it. Don't forget to commit early and often!
 
@@ -409,7 +135,7 @@ Another possibility is a Plateau object. This object could give you perspective 
 
 While you're working, Once you're done, commit and push your work to Github!
 
-Exercise 3: Sales Taxes (Stretch Assignment)
+##Exercise 3: Sales Taxes (Stretch Assignment)
 
 This is another great group exercise!
 
@@ -458,4 +184,3 @@ Output 3:
 1 imported box of chocolates: 11.85
 Sales Taxes: 6.70
 Total: 74.68
-Once you're done, commit and push your work to github!
