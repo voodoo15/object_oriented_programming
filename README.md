@@ -45,20 +45,6 @@ A squad of robotic rovers are to be landed by NASA on a plateau on Mars. This pl
 
 A rover's position and location is represented by a combination of x and y co-ordinates and a letter representing one of the four cardinal compass points. The plateau is divided up into a grid to simplify navigation. An example position might be 0, 0, N, which means the rover is in the bottom left corner and facing North.
 
-Imagine a grid that looks something like this:
-
-  _ _ _ _ _ _ _ _ _
-9|_|_|_|_|_|_|_|_|_|        N
-8|_|_|_|_|_|_|_|_|_|      W   E
-7|_|_|_|_|_|_|_|_|_|        S
-6|_|_|_|_|_|_|_|_|_|
-5|_|_|_|_|_|_|_|_|_|
-4|_|_|_|_|_|_|_|_|_|
-3|_|_|_|_|_|_|_|_|_|
-2|_|_|_|_|_|_|_|_|_|
-1|_|_|_|_|_|_|_|_|_|
-0 1 2 3 4 5 6 7 8 9
-
 In order to control a rover, NASA sends a simple string of letters. The possible letters are 'L', 'R' and 'M'.
 
 'L' and 'R' makes the rover spin 90 degrees left or right respectively, without moving from its current spot.
