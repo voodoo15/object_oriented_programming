@@ -39,7 +39,7 @@ Once you're done, commit and push your work to GitHub!
 
 This is a longer problem and recommended for group work. You can all work at your own computers, but talking through this problem as a group will help break it down and solve it. Don't forget to commit early and often!
 
-The Story
+###The Story
 
 A squad of robotic rovers are to be landed by NASA on a plateau on Mars. This plateau, which is curiously rectangular, must be navigated by the rovers so that their on-board cameras can get a complete view of the surrounding terrain to send back to Earth.
 
@@ -51,9 +51,9 @@ In order to control a rover, NASA sends a simple string of letters. The possible
 'M' means move forward one grid point, and maintain the same heading.
 Assume that the square directly North from (x, y) is (x, y+1).
 
-The Setup
+###The Setup
 
-Input
+####Input
 
 The first line of input is the upper-right coordinates of the plateau, the lower-left coordinates are assumed to be 0,0.
 
@@ -65,11 +65,11 @@ Each rover will be finished sequentially, which means that the second rover won'
 
 Your program should accept 5 inputs with gets.
 
-Output
+####Output
 
 The output for each rover should be its final co-ordinates and heading.
 
-INPUT AND OUTPUT
+###INPUT AND OUTPUT
 
 Test Input:
 5 5                  > Our first line is our plateau size. 
@@ -81,7 +81,8 @@ MMRMMRMRRM
 Expected Output:
 1 3 N                > When rover bot is done doing its instructions, output its current position
 5 1 E                > The first line is the first rover, the second line is the next rover
-How To Approach This Problem
+
+###How To Approach This Problem
 
 There's a lot of different aspects to this problem. This is a great opportunity to practice your problem solving skills! The most important step is to start by breaking things down into small pieces and solve one thing at a time.
 
@@ -113,7 +114,7 @@ turn affects the direction of the rover. Depending on the current direction of t
 
 Once you've figured out how to move and turn your rover, the rest gets much easier because you got the seemingly complex stuff out of the way first! All you'll need to figure out from here is how to read and split up the instructions so that you can pass them on to your rovers.
 
-Taking It Further (optional)
+###Taking It Further (optional)
 
 Try thinking about other object possibilities, such as a MissionControl object that's responsible for reading and handing the instructions over to the rovers. It could also be responsible for reporting their final states.
 
